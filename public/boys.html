@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Мальчики!</title>
+</head>
+
+<body>
+    <div class="container-boys">
+        <h1 id="myNickname"></h1>
+        <span id="rooms-members"></span>
+        <div id="boys-chat-message" class="chat-message"></div>
+        <div class="message-form">
+            <textarea cols="67" rows="6" class="message-input" id="text"></textarea>
+            <div id="error"></div>
+            <button id="send-message" type="button" class="message-btn__send">Send </button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- http://localhost:3000/socket.io/socket.io.js, а ваш сервер, благодаря Socket.IO, отвечает ему этим JavaScript-файлом. -->
+    <script src="boys.js"></script>
+</body>
+
+</html>

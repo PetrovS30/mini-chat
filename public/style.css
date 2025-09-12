@@ -1,0 +1,101 @@
+ul,
+li {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+#chat {
+    max-width: 500px;
+    margin: auto;
+}
+
+#messages {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.message-btn__send {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+/* boys */
+
+.container-boys,
+.container-girls,
+.container-general {
+    max-width: 800px;
+    margin: 10px auto 5px;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+
+#rooms-members {
+    display: flex;
+}
+
+.chat-message {
+    max-width: 500px;
+    height: 400px;
+    overflow-y: auto;
+    /* вертикальный скролл */
+    padding-right: 10px;
+}
+
+.message-form {
+    margin-top: 20px;
+    max-width: 800px;
+}
+
+.message-input {
+    max-width: 600px;
+    border: 1px gray solid;
+    resize: none;
+}
+
+.message-btn__send {
+    max-width: 200px;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.message-btn__send:hover {
+    border: red 1px solid;
+}
+
+.container-heading {
+    display: flex;
+}
+
+.chat-end {
+    cursor: pointer;
+    margin-left: 245px;
+    padding: 6px 12px;
+    border-radius: 18px;
+}
+
+.chat-end:hover {
+    border: red 1px solid;
+}

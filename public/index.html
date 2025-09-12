@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Чат с именами</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="chat">
+        <h1>Welcome to the Chat!</h1>
+        <input id="nickname" placeholder="Введите ваш уникальный никнейм" />
+        <label for="room">Выберите комнату:</label>
+        <select id="room">
+            <option value="general">General</option>
+            <option value="boys">Boys</option>
+            <option value="girls">Girls</option>
+        </select>
+        <button id="send" class="message-btn__send">Отправить</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- http://localhost:3000/socket.io/socket.io.js, а ваш сервер, благодаря Socket.IO, отвечает ему этим JavaScript-файлом. -->
+    <script src="./client.js"></script>
+
+
+</body>
+
+</html>

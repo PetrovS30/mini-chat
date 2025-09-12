@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Общий чат</title>
+</head>
+
+<body>
+    <div class="container-general">
+        <div class="container-heading">
+            <h1 id="nicknameGeneral"></h1>
+            <button class="chat-end">Завершить чат</button>
+        </div>
+        <span id="rooms-members"></span>
+        <div id="general-chat-message" class="chat-message"></div>
+        <div class="message-form">
+            <textarea cols="67" rows="6" class="message-input" id="text"></textarea>
+            <div id="error"></div>
+            <button id="send-message" type="button" class="message-btn__send">Send </button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- http://localhost:3000/socket.io/socket.io.js, а ваш сервер, благодаря Socket.IO, отвечает ему этим JavaScript-файлом. -->
+    <script src="general.js"></script>
+</body>
+
+</html>
