@@ -16,10 +16,11 @@ function logRoomsState() {
         smartLog(`💬 Сообщений: ${roomData.conversation.length}`);
     });
 }
-/* setInterval(() => {
+
+setInterval(() => {
     console.log('📊 Текущее состояние базы данных:');
     logRoomsState();
-}, 7000);  */
+}, 7000); 
 
 
 const rooms = {
@@ -146,28 +147,50 @@ io.on('connection', (socket) => {
 
             io.to(room).emit('newMessage', messageWithId);
 
+            if(rooms[room].conversation.length > 20) {
+                rooms[room].conversation.shift();
+            }
+
             console.log('Отправлено событие newMessage:', messageWithId);
         }
+
     });
 
-    //girls
 
+    socket.on('endChatBoys', () => {
+        const {nickname, room} = socket;
+
+        smartLog(nickname, room);
+        
+        if(nickname && room) {
+            rooms[room].members = rooms[room].members.filter(name => name !== nickname);
+            if (rooms[room]) {
+                io.to(room).emit('roomMembersUpdated', {
+                    members: rooms[room].members
+                });
+            }
+
+            socket.emit('endedChatBoys');
+        }
+        
+    })
 
     socket.on('disconnect', () => {
         const { nickname, room } = socket;
         if (nickname && room && rooms[room]) {
             rooms[room].members = rooms[room].members.filter(name => name !== nickname);
-            io.to(room).emit('boysRoom', {
-                boysMessage: rooms[room].conversation,
-                boysMembers: rooms[room].members
+
+            io.to(room).emit(`${room}UserLeft`, {
+                members: rooms[room].members
             });
+
             smartLog(`❌ ${nickname} отключился и удалён из ${room}`);
         }
     });
 
 });
 
-    console.log('----------------------------------------------------------');
+console.log('----------------------------------------------------------');
 
 
 server.listen(3000, () => {

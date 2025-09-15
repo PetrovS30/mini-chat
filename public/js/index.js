@@ -1,18 +1,27 @@
 const socket = io();
 
-const nicknameInput = document.getElementById('nickname');
-const input = document.getElementById('input');
+const myNickname = document.getElementById('my-nickname');
 const selectInput = document.getElementById('room');
 const sendBtn = document.getElementById('send');
 
 localStorage.clear();
 
 sendBtn.addEventListener('click', ()=> {
-    const nickname = nicknameInput.value.trim();
+    const nickname = myNickname.value.trim();
     const room = selectInput.value;
 
     if (!nickname) {
         alert('Введите никнейм');
+        return;
+    }
+
+    if (nickname.length > 10) {
+        alert('Максимум 10 символов');
+        return;
+    }
+
+    if (nickname.length <= 2) {
+        alert('Минимум 3 символа ');
         return;
     }
 

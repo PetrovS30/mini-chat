@@ -1,13 +1,22 @@
 const socket = io();
 
 
-const myNickname = document.querySelector('#nicknameGirl');
+const nicknameGirl = document.querySelector('#myNickname');
 const roomsMembers = document.getElementById('rooms-members');
 const girlsChatMessage = document.getElementById('girls-chat-message');
 const sendMessage = document.getElementById('send-message');
 const textV = document.getElementById('text');
+const chatEnd = document.getElementById('chat-end')
 
-myNickname.innerHTML = `Привет, ${localStorage.getItem('nickname')}!`;
+let nickname = localStorage.getItem('nickname');
+let room = localStorage.getItem('room');
+
+
+if (!nickname || nickname.trim() === '') {
+    window.location.href = '/'; 
+}
+
+nicknameGirl.innerHTML = `Привет, ${localStorage.getItem('nickname')}!`;
 
 socket.onAny((event, payload) => {
     console.log(`Event: ${event}`, payload);
@@ -18,16 +27,13 @@ socket.on('connect', () => {
 });
 
 
-let nickname = localStorage.getItem('nickname');
-let room = localStorage.getItem('room');
-
 socket.emit('newUserJoinedRoom', {
     nickname,
     room
 });
 
 socket.on('girlsRoom', ({ conversation, members }) => {
-    console.log('📥 Получено событие boysRoom:', { conversation, members });
+    console.log('📥 Получено событие girlsRoom:', { conversation, members });
 
     if (!Array.isArray(members) || !Array.isArray(conversation)) {
         console.warn('Некорректные данные для комнаты');
@@ -38,7 +44,7 @@ socket.on('girlsRoom', ({ conversation, members }) => {
 
     girlsChatMessage.innerHTML = conversation.map(({ nickname, message }) => `
         <ul>
-            <li><strong>${nickname}</strong></li>
+            <li class='members-item'><strong>${nickname}</strong></li>
             <li>${message}</li>
         </ul>
     `).join('');
@@ -67,9 +73,34 @@ socket.on('newMessage', (msg) => {
 
     girlsChatMessage.innerHTML += `
         <ul>
-            <li><strong>${msg.nickname}</strong</li>
+            <li class='members-item'><strong>${msg.nickname}</strong></li>
             <li>${msg.message}</li>
         </ul>
     `;
+
+    while (girlsChatMessage.children.length > 20) {
+        girlsChatMessage.removeChild(girlsChatMessage.firstChild);
+    }
 })
 
+chatEnd.addEventListener('click', () => {
+    const userExit = {
+        nickname,
+        room
+    };
+    socket.emit('endChatBoys', userExit);
+});
+
+socket.on('roomMembersUpdated', ({members}) => {
+    roomsMembers.innerHTML = `В женском чате сейчас: ${members.join(', ')}`;
+})
+
+socket.on('endedChatBoys', () => {
+    window.location.href = 'http://localhost:3000';
+});
+
+
+socket.on('girlsUserLeft', ({members}) => {
+    roomsMembers.innerHTML = '';
+    roomsMembers.innerHTML = `В женском чате сейчас: ${members.join(', ')}`;
+});

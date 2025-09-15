@@ -1,47 +1,50 @@
-ul,
-li {
-    list-style-type: none;
-    padding-left: 10px;
-}
-
-body {
-    font-family: sans-serif;
-    padding: 20px;
-}
-
-/* main */
-#chat {
+.container-rooms {
     max-width: 500px;
-    margin: auto;
+    margin: 10px auto 5px;
+    padding: 10px;
 }
 
-#messages {
-    border: 1px solid #ccc;
-    padding: 10px;
-    height: 300px;
-    overflow-y: auto;
+.container-rooms__title {
     margin-bottom: 10px;
 }
 
-
-
-/* boys */
-
-
-h1 {
+.container-rooms__my-nickname {
     font-size: 20px;
     font-weight: 500;
 }
 
+.container-heading {
+    display: flex;
+    justify-content: space-between;
+}
 
+.chat-end {
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 18px;
+}
 
+.chat-end:hover {
+    border: red 1px solid;
+}
+
+.rooms-members {
+    max-width: 500px;
+    padding-right: 15px;
+}
 
 .chat-message {
-    max-width: 500px;
+    margin-top: 20px;
+    max-width: 477px;
     height: 400px;
-    overflow-y: auto;
     /* вертикальный скролл */
-    padding-right: 10px;
+    overflow-y: auto;
+    padding: 15px 10px 10px 0;
+}
+
+.members-item {
+    margin-top: 10px;
 }
 
 .message-form {
@@ -53,7 +56,9 @@ h1 {
     max-width: 600px;
     border: 1px gray solid;
     resize: none;
+    padding: 7px 10px;
 }
+
 
 .message-btn__send {
     max-width: 200px;
@@ -67,20 +72,5 @@ h1 {
 }
 
 .message-btn__send:hover {
-    border: red 1px solid;
-}
-
-.container-heading {
-    display: flex;
-}
-
-.chat-end {
-    cursor: pointer;
-    margin-left: 220px;
-    padding: 6px 12px;
-    border-radius: 18px;
-}
-
-.chat-end:hover {
     border: red 1px solid;
 }

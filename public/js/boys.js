@@ -5,9 +5,16 @@ const boysChatMessage = document.getElementById('boys-chat-message');
 const roomsMembers = document.getElementById('rooms-members');
 const sendMessage = document.getElementById('send-message');
 const text = document.getElementById('text');
+const chatEnd = document.getElementById('chat-end');
+
+let nickname = localStorage.getItem('nickname');
+let room = localStorage.getItem('room');
+
+if (!nickname || nickname.trim() === '') {
+    window.location.href = '/'; 
+}
 
 nicknameBoy.innerHTML = `Привет,  ${localStorage.getItem('nickname')}!`;
-
 
 socket.onAny((event, payload) => {
   console.log(`📥 Событие: ${event}`, payload);
@@ -17,15 +24,10 @@ socket.on('connect', () => {
     console.log('✅ Клиент подключён:', socket.id);
 });
 
-
-let nickname = localStorage.getItem('nickname');
-let room = localStorage.getItem('room');
-
 socket.emit('newUserJoinedRoom', {
     nickname,
     room
 });
-
 
 socket.on('boysRoom', ({ conversation, members }) => {
     console.log('📥 Получено событие boysRoom:', { conversation, members });
@@ -39,7 +41,7 @@ socket.on('boysRoom', ({ conversation, members }) => {
 
     boysChatMessage.innerHTML = conversation.map(({ nickname, message }) => `
         <ul>
-            <li><strong>${nickname}</strong></li>
+            <li class='members-item'><strong>${nickname}</strong></li>
             <li>${message}</li>
         </ul>
     `).join('');
@@ -73,16 +75,17 @@ sendMessage.addEventListener('click', () => {
 
 // ✅ Подписка на новое сообщение — должна быть отдельно!
 socket.on('newMessage', (msg) => {
-    console.log('Получено событие newMessage:', msg.nickname); 
-    console.log('Получено событие newMessage:', msg.message);
-    console.log('Новый никнейм', msg.newMsgNickname);
-     
+
     boysChatMessage.innerHTML += `
         <ul>
-            <li><strong>${msg.nickname}</strong></li>
+            <li class='members-item'><strong>${msg.nickname}</strong></li>
             <li>${msg.message}</li>
         </ul>
     `;
+    
+    while (boysChatMessage.children.length > 20) {
+        boysChatMessage.removeChild(boysChatMessage.firstChild);
+    }
 
 });
 
@@ -91,5 +94,23 @@ socket.on('redirectToHome', () => {
 });
 
 
+chatEnd.addEventListener('click', () => {
+    const userExit = {
+        nickname,
+        room
+    };
+    socket.emit('endChatBoys', userExit);
+});
 
+socket.on('roomMembersUpdated', ({members}) => {
+    roomsMembers.innerHTML = `В мужском чате сейчас: ${members.join(', ')}`;
+})
 
+socket.on('endedChatBoys', () => {
+    window.location.href = 'http://localhost:3000';
+});
+
+socket.on('girlsUserLeft', ({members}) => {
+    roomsMembers.innerHTML = '';
+    roomsMembers.innerHTML = `В мужском чате сейчас: ${members.join(', ')}`;
+});

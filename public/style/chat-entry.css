@@ -1,0 +1,26 @@
+.chat-main__container {
+    max-width: 500px;
+    margin: auto;
+}
+
+.chat-main__nickname-input {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.chat-main__nickname-input:focus {
+    border: 2px solid blue;
+}
+
+.chat-main__submit-btn {
+    max-width: 160px;
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
